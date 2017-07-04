@@ -1,0 +1,34 @@
+extends ../../../index.pug
+
+block scene
+    a-assets
+        img#tex-skybox(src=require('assets/textures/stars.png'))
+        img#tex-grass(src=require('assets/textures/grass.jpg'))
+
+        a-mixin#halfSphere(geometry="primitive: sphere; radius: 15; thetaLength: 90;")
+        a-mixin#sphere(geometry="primitive: sphere; radius: 15;")
+
+    a-entity#global
+        a-sky(_color="#99c" src="#tex-skybox")
+        a-light.sky_light(type="ambient" color="#fff" intensity="0.2")
+        a-light.sky_light(type="point" position="0 4 0" color="#fff" intensity="0.4")
+
+    a-entity#planets
+        a-planet-earth#earth(position="0 0 500" planet-earth="")
+
+
+
+    //- a-entity#world
+        a-box.interactive(position="-10 0.5 -20")
+        a-terrain(width="20" height="20" src="#tex-grass" repeat="8 8")
+
+    a-entity#playerBox
+        a-camera#player(position="666 666 666" _look-at="#earth" wasd-controls="acceleration: 6500;" fov="75")
+            //- a-sound#bg_sound(src="#audio-bg-1" volume="0" autoplay="false")
+            a-entity#sound
+            a-entity(position="0 0 -2")
+                a-cursor(material="color: #eee; opacity: 0.8; depthTest: false;" fuse="true" fuse-timeout="1500" raycaster="objects: .interactive" cursor-events cursor-animation="")
+
+            //- fov is 75, gui z is -0.7, when 1 is 100% width and about 95% height
+            a-entity#gui(position="0 0 -0.07" scale="0.1 0.1 0.1")
+                //- a-image#tip(position="0 0.3 0" width="0.5" src="" npot="true" image-init="" opacity="0" visible="false")
